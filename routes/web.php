@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\profile\AvatarController;
+use App\Http\Controllers\GithubController;
+use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +30,19 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/avatar', [AvatarController::class, 'update'])->name('profile.avatar');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/avatar/ai', [AvatarController::class, 'generate'])->name('profile.avatar.ai');
+});
+
+
+
+Route::controller(GithubController::class)->group(function () {
+    Route::post('/auth/github', 'redirectToGithub')->name('login.github');
+    Route::get('/auth/github/callback', 'handleGithubCallback');
+});
+
+Route::controller(GoogleController::class)->group(function () {
+    Route::post('/auth/google', 'redirectToGoogle')->name('login.google');
+    Route::get('/auth/google/callback', 'handleGoogleCallback');
 });
 
 require __DIR__ . '/auth.php';

@@ -1,10 +1,29 @@
+<style>
+    .img-avatar {
+        width: 90px;
+
+    }
+
+    .img-avatar img {
+        border-radius: 50%
+    }
+</style>
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             User Avatar
         </h2>
+        <div class="img-avatar">
+            <img src="{{ 'storage/'.$user->avatar}}" alt="user avatar">
+        </div>
 
-        <img src="{{ 'storage/'.$user->avatar}}" alt="user avatar">
+        <form method="post" action="{{route('profile.avatar.ai')}}">
+            @csrf
+            <div class="flex items-center gap-4">
+                <x-primary-button>Generate Avatar</x-primary-button>
+            </div>
+        </form>
+
         <p class="mt-1 text-sm text-gray-600">
             Add user avatar
         </p>
